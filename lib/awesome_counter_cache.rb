@@ -1,0 +1,2 @@
+module AwesomeCounterCache
+end

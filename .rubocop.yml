@@ -1,0 +1,4 @@
+---
+inherit_from:
+- "/Users/kaspernj/.rvm/gems/ruby-2.1.2/gems/best_practice_project-0.0.5/lib/best_practice_project/config/rubocop.yml"
+- ".rubocop_todo.yml"
