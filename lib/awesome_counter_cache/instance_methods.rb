@@ -20,7 +20,7 @@ module AwesomeCounterCache::InstanceMethods
     @awesome_counter_cache_data[id][:delta_original] = @awesome_counter_cache_data[id].delete(:delta_current)
   end
 
-  def awesome_counter_cache_after_initialize(args, model, relation_name)
+  def awesome_counter_cache_after_initialize(args, model)
     id = args.fetch(:id)
 
     @awesome_counter_cache_data ||= {}

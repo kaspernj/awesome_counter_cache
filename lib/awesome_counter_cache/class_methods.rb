@@ -8,7 +8,7 @@ module AwesomeCounterCache::ClassMethods
     args[:id] = @awesome_counter_cache_for
 
     after_initialize do |model|
-      awesome_counter_cache_after_initialize(args, model, relation_name)
+      awesome_counter_cache_after_initialize(args, model)
     end
 
     after_commit on: :create do |model|
