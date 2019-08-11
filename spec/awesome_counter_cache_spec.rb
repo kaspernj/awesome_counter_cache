@@ -5,23 +5,19 @@ describe AwesomeCounterCache do
 
   it "counts up" do
     expect(user.roles_count).to eq 0
-
     user.roles.create!
-    expect(user.roles_count).to eq 1
-
+    expect(user.reload.roles_count).to eq 1
     user.roles.create!
-    expect(user.roles_count).to eq 2
+    expect(user.reload.roles_count).to eq 2
   end
 
   it "counts down" do
     user.roles.create!
     user.roles.create!
-    expect(user.roles_count).to eq 2
-
+    expect(user.reload.roles_count).to eq 2
     user.roles.first.destroy!
-    expect(user.roles_count).to eq 1
-
+    expect(user.reload.roles_count).to eq 1
     user.roles.first.destroy!
-    expect(user.roles_count).to eq 0
+    expect(user.reload.roles_count).to eq 0
   end
 end
