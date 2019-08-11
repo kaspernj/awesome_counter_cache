@@ -1,7 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require "dummy/config/environment"
 require "rspec/rails"
-require "factory_girl_rails"
+require "factory_bot_rails"
 require "forgery"
 require "sqlite3"
 require "test_after_commit"
