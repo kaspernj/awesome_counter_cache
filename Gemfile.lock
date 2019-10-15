@@ -49,10 +49,6 @@ GEM
       tzinfo (~> 1.1)
     arel (9.0.0)
     ast (2.4.0)
-    auto_autoloader (0.0.5)
-      string-cases
-    best_practice_project (0.0.10)
-      auto_autoloader (>= 0.0.5)
     builder (3.2.3)
     concurrent-ruby (1.1.5)
     crass (1.0.4)
@@ -82,7 +78,7 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     nio4r (2.4.0)
-    nokogiri (1.10.3)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     parallel (1.17.0)
     parser (2.6.3.0)
@@ -149,7 +145,6 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.1)
-    string-cases (0.0.4)
     thor (0.20.3)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
@@ -166,7 +161,6 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_counter_cache!
-  best_practice_project (= 0.0.10)
   factory_bot_rails (= 5.0.2)
   forgery (= 0.7.0)
   rails (>= 5.0.0, < 6.0.0)
