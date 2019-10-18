@@ -177,12 +177,12 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_counter_cache!
-  factory_bot_rails (= 5.1.1)
-  forgery (= 0.7.0)
+  factory_bot_rails
+  forgery
   rails (>= 5.0.0, < 7.0.0)
-  rspec-rails (= 3.9.0)
-  rubocop (= 0.75.1)
-  sqlite3 (= 1.4.1)
+  rspec-rails
+  rubocop
+  sqlite3
   tzinfo-data
 
 BUNDLED WITH
