@@ -54,4 +54,9 @@ describe AwesomeCounterCache do
     expect(user.reload.important_tasks_count).to eq 0
     expect(user.reload.unimportant_tasks_count).to eq 1
   end
+
+  it "overwrites reload but continues to let it work like before" do
+    task = create :task, important: true, user: user
+    expect(task.reload).to eq task
+  end
 end

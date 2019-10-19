@@ -48,8 +48,9 @@ module AwesomeCounterCache::InstanceMethods
   end
 
   def reload(*args, &blk)
-    super
+    result = super
     awesome_counter_cache_reset_original_values
+    result
   end
 
   def awesome_counter_cache_reset_original_values
