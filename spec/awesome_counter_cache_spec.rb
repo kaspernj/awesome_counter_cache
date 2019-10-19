@@ -34,4 +34,24 @@ describe AwesomeCounterCache do
     expect(user.reload.important_tasks_count).to eq 0
     expect(user.reload.unimportant_tasks_count).to eq 1
   end
+
+  it "reloads the initial value on reload" do
+    task = create :task, important: true, user: user
+    same_task = Task.find(task.id)
+
+    expect(user.reload.important_tasks_count).to eq 1
+    expect(user.reload.unimportant_tasks_count).to eq 0
+
+    same_task.update!(important: false)
+
+    expect(user.reload.important_tasks_count).to eq 0
+    expect(user.reload.unimportant_tasks_count).to eq 1
+
+    task.with_lock do
+      task.update!(important: false)
+    end
+
+    expect(user.reload.important_tasks_count).to eq 0
+    expect(user.reload.unimportant_tasks_count).to eq 1
+  end
 end

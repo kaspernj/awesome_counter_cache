@@ -47,6 +47,17 @@ module AwesomeCounterCache::InstanceMethods
     end
   end
 
+  def reload(*args, &blk)
+    super
+    awesome_counter_cache_reset_original_values
+  end
+
+  def awesome_counter_cache_reset_original_values
+    self.class.awesome_counter_caches.each do |id, args|
+      @awesome_counter_cache_data.fetch(id)[:delta_original] = args.fetch(:delta_magnitude).call(self)
+    end
+  end
+
   def destroy_awesome_counter_cache_for(relation_name, state_data, args)
     relation_model = __send__(relation_name)
     return if relation_model.blank?
