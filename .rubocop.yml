@@ -6,6 +6,8 @@ AllCops:
     - db/schema.rb
     - node_modules/**/*
     - spec/dummy/db/schema.rb
+  NewCops: enable
+  TargetRubyVersion: 2.5
 
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
