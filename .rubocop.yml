@@ -9,6 +9,11 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 
@@ -77,6 +82,15 @@ Metrics/MethodLength:
 
 Metrics/PerceivedComplexity:
   Max: 10
+
+Rails/ApplicationRecord:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
 
 Style/AccessorGrouping:
   Enabled: true
