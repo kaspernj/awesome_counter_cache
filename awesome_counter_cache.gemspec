@@ -5,14 +5,15 @@ require "awesome_counter_cache/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "awesome_counter_cache"
-  s.version     = AwesomeCounterCache::VERSION
-  s.authors     = ["kaspernj"]
-  s.email       = ["k@spernj.org"]
-  s.homepage    = "https://github.com/kaspernj/awesome_counter_cache"
-  s.summary     = "Counter caching with a bit more for Rails"
+  s.name = "awesome_counter_cache"
+  s.version = AwesomeCounterCache::VERSION
+  s.authors = ["kaspernj"]
+  s.email = ["k@spernj.org"]
+  s.homepage = "https://github.com/kaspernj/awesome_counter_cache"
+  s.summary = "Counter caching with a bit more for Rails"
   s.description = "Counter caching with a bit more for Rails"
-  s.license     = "MIT"
+  s.license = "MIT"
+  s.metadata = {"rubygems_mfa_required" => "true"}
   s.required_ruby_version = ">= 2.5.0"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
