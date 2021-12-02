@@ -43,7 +43,7 @@ module AwesomeCounterCache::InstanceMethods
 
     if addition != 0
       primary_key_value = relation_model.read_attribute(relation_model.class.primary_key)
-      relation_model.class.update_counters(primary_key_value, args.fetch(:column_name) => addition)
+      relation_model.class.update_counters(primary_key_value, args.fetch(:column_name) => addition) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 
@@ -67,7 +67,7 @@ module AwesomeCounterCache::InstanceMethods
 
     if addition != 0
       primary_key_value = relation_model.read_attribute(relation_model.class.primary_key)
-      relation_model.class.update_counters(primary_key_value, args.fetch(:column_name) => addition)
+      relation_model.class.update_counters(primary_key_value, args.fetch(:column_name) => addition) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 
@@ -79,7 +79,7 @@ module AwesomeCounterCache::InstanceMethods
 
     if addition != 0
       primary_key_value = relation_model.read_attribute(relation_model.class.primary_key)
-      relation_model.class.update_counters(primary_key_value, args.fetch(:column_name) => addition)
+      relation_model.class.update_counters(primary_key_value, args.fetch(:column_name) => addition) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 end
