@@ -30,11 +30,11 @@ services:
   mariadb:
     image: "mariadb:10.8.6"
     environment:
-      MARIADB_DATABASE: awesome_counter_cache_test
-      MARIADB_ROOT_HOST: "%"
-      MARIADB_ROOT_PASSWORD: password
-      MARIADB_USER: awesome_counter_cache
-      MARIADB_PASSWORD: password
+      MYSQL_DATABASE: awesome_counter_cache_test
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: awesome_counter_cache
+      MYSQL_PASSWORD: password
     expose:
       - 3306
     restart_policy: on-failure
