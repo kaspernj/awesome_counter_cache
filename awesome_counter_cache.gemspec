@@ -20,6 +20,8 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "factory_bot_rails"
   s.add_development_dependency "forgery"
+  s.add_development_dependency "mysql2"
+  s.add_development_dependency "pg"
   s.add_development_dependency "pry"
   s.add_development_dependency "rails", ">= 5.0.0", "< 7.0.0"
   s.add_development_dependency "rspec-rails"
