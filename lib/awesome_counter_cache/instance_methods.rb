@@ -3,7 +3,7 @@ module AwesomeCounterCache::InstanceMethods
     id = counter_cache.id
     state = @awesome_counter_cache_data.fetch(id)
     state.delta_current = counter_cache.delta_magnitude.call(model)
-    model.create_awesome_counter_cache_for(counter_cache.relation_name, @awesome_counter_cache_data.fetch(id), counter_cache)
+    model.create_awesome_counter_cache_for(@awesome_counter_cache_data.fetch(id), counter_cache)
     state.delta_original = state.delta_current
     state.delta_current = nil
   end
@@ -12,7 +12,7 @@ module AwesomeCounterCache::InstanceMethods
     id = counter_cache.id
     state = @awesome_counter_cache_data.fetch(id)
     state.delta_current = counter_cache.delta_magnitude.call(model)
-    model.destroy_awesome_counter_cache_for(counter_cache.relation_name, @awesome_counter_cache_data.fetch(id), counter_cache)
+    model.destroy_awesome_counter_cache_for(@awesome_counter_cache_data.fetch(id), counter_cache)
     state.delta_original = state.delta_current
     state.delta_current = nil
   end
@@ -21,7 +21,7 @@ module AwesomeCounterCache::InstanceMethods
     id = counter_cache.id
     state = @awesome_counter_cache_data.fetch(id)
     state.delta_current = counter_cache.delta_magnitude.call(model)
-    model.update_awesome_counter_cache_for(counter_cache.relation_name, @awesome_counter_cache_data.fetch(id), counter_cache)
+    model.update_awesome_counter_cache_for(@awesome_counter_cache_data.fetch(id), counter_cache)
     state.delta_original = state.delta_current
     state.delta_current = nil
   end
@@ -41,8 +41,8 @@ module AwesomeCounterCache::InstanceMethods
     end
   end
 
-  def create_awesome_counter_cache_for(relation_name, state, counter_cache)
-    relation_model = __send__(relation_name)
+  def create_awesome_counter_cache_for(state, counter_cache)
+    relation_model = __send__(counter_cache.relation_name)
     return if relation_model.blank?
 
     addition = state.delta_current
@@ -66,8 +66,8 @@ module AwesomeCounterCache::InstanceMethods
     end
   end
 
-  def destroy_awesome_counter_cache_for(relation_name, state, counter_cache)
-    relation_model = __send__(relation_name)
+  def destroy_awesome_counter_cache_for(state, counter_cache)
+    relation_model = __send__(counter_cache.relation_name)
     return if relation_model.blank?
 
     addition = -state.delta_original
@@ -78,10 +78,18 @@ module AwesomeCounterCache::InstanceMethods
     end
   end
 
-  def update_awesome_counter_cache_for(relation_name, state, counter_cache) # rubocop:disable Metrics/AbcSize
+  def update_awesome_counter_cache_for(state, counter_cache) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     addition = state.delta_current - state.delta_original
-    relation_model_class = self.class.reflections.fetch(relation_name.to_s).klass
-    primary_key_value = read_attribute(counter_cache.relation_foreign_key)
+    relation_model_class = counter_cache.reflection.klass
+
+    if counter_cache.reflection.options[:through]
+      # Read ID through relationship because there isn't a column to read from
+      primary_key_value = __send__(counter_cache.relation_name)&.id
+    else
+      # Read ID directly from column because its faster (no db-lookup)
+      # Use __send__ because read_attribute fails silently if column doesn't exist
+      primary_key_value = __send__(counter_cache.relation_foreign_key)
+    end
 
     if saved_changes.key?(counter_cache.relation_foreign_key)
       # Record change from one to another - reduce and increase based on previously recorded values
@@ -96,7 +104,7 @@ module AwesomeCounterCache::InstanceMethods
         # Increase the count of the new record
         relation_model_class.update_counters(primary_key_value, counter_cache.column_name => state.delta_current) # rubocop:disable Rails/SkipsModelValidations
       end
-    elsif !addition.zero?
+    elsif primary_key_value && !addition.zero?
       # Add to the current record
       relation_model_class.update_counters(primary_key_value, counter_cache.column_name => addition) # rubocop:disable Rails/SkipsModelValidations
     end
