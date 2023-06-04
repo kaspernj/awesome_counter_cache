@@ -1,7 +1,9 @@
 require "spec_helper"
 
 describe AwesomeCounterCache do
+  let(:account) { create :account }
   let(:another_user) { create :user }
+  let(:project) { create :project, account: account }
   let(:user) { create :user }
 
   it "counts up" do
@@ -31,6 +33,20 @@ describe AwesomeCounterCache do
 
     task.update!(important: false)
 
+    expect(user.reload).to have_attributes(important_tasks_count: 0, unimportant_tasks_count: 1)
+  end
+
+  it "changes counter cache based on changed delta magnitude (with an account)" do
+    expect(user.reload.important_tasks_count).to eq 0
+
+    task = create :task, important: true, project: project, user: user
+
+    expect(account.reload).to have_attributes(important_tasks_count: 1, unimportant_tasks_count: 0)
+    expect(user.reload).to have_attributes(important_tasks_count: 1, unimportant_tasks_count: 0)
+
+    task.update!(important: false)
+
+    expect(account.reload).to have_attributes(important_tasks_count: 0, unimportant_tasks_count: 1)
     expect(user.reload).to have_attributes(important_tasks_count: 0, unimportant_tasks_count: 1)
   end
 

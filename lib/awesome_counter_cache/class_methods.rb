@@ -3,7 +3,7 @@ module AwesomeCounterCache::ClassMethods
     id = awesome_counter_caches.length
     args[:column_name] ||= "#{model_name.plural}_count"
     args[:delta_magnitude] ||= proc { 1 }
-    args[:relation_foreign_key] = reflections.fetch(relation_name.to_s).foreign_key
+    args[:model_class] = self
     args[:relation_name] = relation_name
     args[:id] = id
 
