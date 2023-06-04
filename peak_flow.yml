@@ -5,26 +5,26 @@ builds:
       DATABASE_URL: sqlite3://db/home/build/project/spec/dummy/db/test.sqlite3
     name: SQLite
     script:
-      - cd spec/dummy && RAILS_ENV=test bundle exec rake db:drop db:schema:load
+      - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
   build_2:
     environment:
       DATABASE_URL: mysql2://awesome_counter_cache:password@mariadb:3306/awesome_counter_cache_test
     name: MariaDB
     script:
-      - cd spec/dummy && RAILS_ENV=test bundle exec rake db:drop db:schema:load
+      - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
   build_3:
     environment:
       DATABASE_URL: postgresql://awesome_counter_cache:password@postgres:5432/awesome_counter_cache_test
     name: Postgres
     script:
-      - cd spec/dummy && RAILS_ENV=test bundle exec rake db:drop db:schema:load
+      - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
   linters:
     name: Linters
     script:
-      - cd spec/dummy && RAILS_ENV=test bundle exec rake db:drop db:schema:load
+      - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rubocop
 services:
   mariadb:
