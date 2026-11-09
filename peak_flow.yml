@@ -4,6 +4,17 @@ builds:
     environment:
       DATABASE_URL: sqlite3://db/home/build/project/spec/dummy/db/test.sqlite3
     name: SQLite
+    # Every build runs the whole suite against the whole gem, so the lists cover
+    # the gem source, the suite and the shared dependency files. Only docs and
+    # CI config sit outside them, and negations have to be quoted.
+    paths:
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "awesome_counter_cache.gemspec"
+      - "Rakefile"
+      - ".ruby-version"
     script:
       - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
@@ -11,6 +22,14 @@ builds:
     environment:
       DATABASE_URL: mysql2://awesome_counter_cache:password@mariadb:3306/awesome_counter_cache_test
     name: MariaDB
+    paths:
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "awesome_counter_cache.gemspec"
+      - "Rakefile"
+      - ".ruby-version"
     script:
       - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
@@ -18,11 +37,30 @@ builds:
     environment:
       DATABASE_URL: postgresql://awesome_counter_cache:password@postgres:5432/awesome_counter_cache_test
     name: Postgres
+    paths:
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "awesome_counter_cache.gemspec"
+      - "Rakefile"
+      - ".ruby-version"
     script:
       - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
   linters:
     name: Linters
+    paths:
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "awesome_counter_cache.gemspec"
+      - "Rakefile"
+      - ".ruby-version"
+      - ".rubocop.yml"
+      - ".rubocop_todo.yml"
+      - "!spec/dummy/db/schema.rb"
     script:
       - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rubocop
