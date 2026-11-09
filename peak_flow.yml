@@ -4,17 +4,18 @@ builds:
     environment:
       DATABASE_URL: sqlite3://db/home/build/project/spec/dummy/db/test.sqlite3
     name: SQLite
-    # Every build runs the whole suite against the whole gem, so the lists cover
-    # the gem source, the suite and the shared dependency files. Only docs and
-    # CI config sit outside them, and negations have to be quoted.
+    # Deny-list shape, so an unlisted path still runs the lane: only paths proven not to be
+    # read by `bundle install` + `rails db:schema:load` + `rspec` are negated. Gemfile,
+    # Gemfile.lock, the gemspec, Rakefile and .ruby-version are never negated - the install
+    # every lane runs is lockfile- and toolchain-driven.
     paths:
-      - "lib/**"
-      - "spec/**"
-      - "Gemfile"
-      - "Gemfile.lock"
-      - "awesome_counter_cache.gemspec"
-      - "Rakefile"
-      - ".ruby-version"
+      - "**"
+      - "!.github/**"
+      - "!.gitignore"
+      - "!MIT-LICENSE"
+      - "!README.md"
+      - "!.rubocop.yml"
+      - "!.rubocop_todo.yml"
     script:
       - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
@@ -23,13 +24,13 @@ builds:
       DATABASE_URL: mysql2://awesome_counter_cache:password@mariadb:3306/awesome_counter_cache_test
     name: MariaDB
     paths:
-      - "lib/**"
-      - "spec/**"
-      - "Gemfile"
-      - "Gemfile.lock"
-      - "awesome_counter_cache.gemspec"
-      - "Rakefile"
-      - ".ruby-version"
+      - "**"
+      - "!.github/**"
+      - "!.gitignore"
+      - "!MIT-LICENSE"
+      - "!README.md"
+      - "!.rubocop.yml"
+      - "!.rubocop_todo.yml"
     script:
       - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
@@ -38,29 +39,27 @@ builds:
       DATABASE_URL: postgresql://awesome_counter_cache:password@postgres:5432/awesome_counter_cache_test
     name: Postgres
     paths:
-      - "lib/**"
-      - "spec/**"
-      - "Gemfile"
-      - "Gemfile.lock"
-      - "awesome_counter_cache.gemspec"
-      - "Rakefile"
-      - ".ruby-version"
+      - "**"
+      - "!.github/**"
+      - "!.gitignore"
+      - "!MIT-LICENSE"
+      - "!README.md"
+      - "!.rubocop.yml"
+      - "!.rubocop_todo.yml"
     script:
       - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rspec
   linters:
     name: Linters
+    # `.rubocop.yml` and `.rubocop_todo.yml` are not negated here: they are this lane's own
+    # configuration, so a change to either changes this lane's verdict. `spec/dummy/db/schema.rb`
+    # is not negated either, because this lane runs `db:schema:load` before rubocop.
     paths:
-      - "lib/**"
-      - "spec/**"
-      - "Gemfile"
-      - "Gemfile.lock"
-      - "awesome_counter_cache.gemspec"
-      - "Rakefile"
-      - ".ruby-version"
-      - ".rubocop.yml"
-      - ".rubocop_todo.yml"
-      - "!spec/dummy/db/schema.rb"
+      - "**"
+      - "!.github/**"
+      - "!.gitignore"
+      - "!MIT-LICENSE"
+      - "!README.md"
     script:
       - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rubocop
