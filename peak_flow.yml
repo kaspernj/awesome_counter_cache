@@ -52,16 +52,17 @@ builds:
   linters:
     name: Linters
     # `.rubocop.yml` and `.rubocop_todo.yml` are not negated here: they are this lane's own
-    # configuration, so a change to either changes this lane's verdict. `spec/dummy/db/schema.rb`
-    # is not negated either, because this lane runs `db:schema:load` before rubocop.
+    # configuration, so a change to either changes this lane's verdict.
+    # `spec/dummy/db/schema.rb` is negated because this lane reads no database - rubocop
+    # excludes that file in `.rubocop.yml`, so it cannot change this lane's verdict.
     paths:
       - "**"
       - "!.github/**"
       - "!.gitignore"
       - "!MIT-LICENSE"
       - "!README.md"
+      - "!spec/dummy/db/schema.rb"
     script:
-      - cd spec/dummy && RAILS_ENV=test bundle exec rails db:schema:load
       - bundle exec rubocop
 services:
   mariadb:

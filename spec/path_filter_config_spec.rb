@@ -51,4 +51,27 @@ describe "path filter configuration" do
       expect(build.fetch("paths")).to include("!.rubocop.yml", "!.rubocop_todo.yml")
     end
   end
+
+  # The dummy app has no config/database.yml, so a build that loads the schema can only reach a
+  # database through the DATABASE_URL its lane declares.
+  it "gives every build that loads the schema a database configuration" do
+    builds.each do |_identifier, build|
+      script = build.fetch("script")
+      expect(build.fetch("environment")).to include("DATABASE_URL") if script.any? { |command| command.include?("db:schema:load") }
+    end
+  end
+
+  it "negates the schema file only for the builds that never read it" do
+    builds.each do |_identifier, build|
+      negated = build.fetch("paths").map { |pattern| pattern.sub(/^!/, "") }
+      script = build.fetch("script")
+      loads_schema = script.any? { |command| command.include?("db:schema:load") }
+
+      if loads_schema
+        expect(negated).not_to include("spec/dummy/db/schema.rb")
+      else
+        expect(negated).to include("spec/dummy/db/schema.rb")
+      end
+    end
+  end
 end
