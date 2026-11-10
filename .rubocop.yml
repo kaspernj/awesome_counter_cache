@@ -86,6 +86,10 @@ Metrics/PerceivedComplexity:
 Rails/ApplicationRecord:
   Enabled: false
 
+RSpec/DescribeClass:
+  Exclude:
+    - spec/path_filter_config_spec.rb
+
 RSpec/ExampleLength:
   Enabled: false
 
