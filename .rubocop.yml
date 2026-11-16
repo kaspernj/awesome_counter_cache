@@ -187,3 +187,6 @@ Style/SymbolArray:
 Style/TrivialAccessors:
   ExactNameMatch: true
   Enabled: true
+
+# Path-filter probe (STOE-1203): a lint-config-only change is negated by the three test
+# lanes and kept by the Linters lane, so each lane records a different filter decision.
